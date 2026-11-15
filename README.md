@@ -99,9 +99,9 @@
 
 		let name: string | null = "Krishna";
 		name = null;       // Allowed
-		name = "Krishna";  // Allowed
-		
-	(5)undefined : undefined represents a variable that has been declared but has not been assigned a value.
+		name = "Krishna";  // Allowed;
+	
+(5)undefined : undefined represents a variable that has been declared but has not been assigned a value.
 		In simple words, when a variable exists but doesn't have an assigned value, its value is usually undefined.
 		For example:
 		- A variable is declared but no value is assigned.
@@ -115,7 +115,7 @@
 		"undefined is a primitive value that indicates a variable has not been assigned a value or a property is missing. 
 		In TypeScript, with strictNullChecks enabled, we need to explicitly include undefined in a variable's type if we want it to accept undefined."
 
-	(6)any : any is a data type that allows a variable to store values of any data type without generating type errors.
+(6)any : any is a data type that allows a variable to store values of any data type without generating type errors.
 
 		let data: any = "Krishna";
 		console.log(data);
@@ -144,7 +144,7 @@
 		It disables most type checking for that variable, so TypeScript cannot catch many type-related errors. 
 		Therefore, it should be avoided when possible."
 
-	(7)unknown : unknown is a data type that allows you to store values of any data type, but requires you to check the type before performing operations on that value.
+(7)unknown : unknown is a data type that allows you to store values of any data type, but requires you to check the type before performing operations on that value.
 		In simple words:
 		unknown accepts any value, but TypeScript doesn't allow you to use that value until you verify its data type.
 		It is a safer alternative to any.
@@ -168,7 +168,7 @@
 		Unlike any, it does not allow us to perform operations directly on the value without first checking or narrowing its type.	
 		It provides better type safety and is useful when handling dynamic or external data."
 
-	(8)Void : void is used to indicate that a function does not return a meaningful value.
+(8)Void : void is used to indicate that a function does not return a meaningful value.
 
 		function greet(): void {
 		    console.log("Hello Krishna");
@@ -186,7 +186,7 @@
 		It is commonly used with functions that perform actions such as logging messages, updating data, or handling events."
 
 
-	(9)never : never represents a value that never occurs.
+(9)never : never represents a value that never occurs.
 		In simple words, never is used when a function never completes normally or when a variable cannot have any possible value.
 		It is commonly used in:
 		- Functions that always throw errors.
