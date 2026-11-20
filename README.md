@@ -1,6 +1,6 @@
 # TypeScript Notes – Complete Beginner Guide
 
-A beginner-friendly TypeScript learning guide covering basic concepts, data types, compiler configuration, type inference, type annotations, arrays, tuples, and more.
+A beginner-friendly TypeScript learning guide covering basic concepts, data types, compiler configuration, type inference, type annotations, arrays, tuples, enums, union and intersection types, and functions.
 
 ---
 
@@ -612,6 +612,359 @@ console.log(user[0]); // Valid
 
 ---
 
+
+---
+
+# 12. Enums in TypeScript
+
+An **Enum (Enumeration)** is a way to define a set of named constants.
+
+Instead of using random values throughout your code, you define a collection of meaningful names representing predefined values.
+
+### Numeric Enum
+
+```typescript
+enum Status {
+    Pending,
+    Approved,
+    Rejected
+}
+
+let currentStatus: Status = Status.Pending;
+
+console.log(currentStatus); // Output: 0
+```
+
+By default, TypeScript assigns numeric values starting from `0`.
+
+- `Pending = 0`
+- `Approved = 1`
+- `Rejected = 2`
+
+### Enum with Custom Numeric Values
+
+You can assign custom numeric values to enum members.
+
+```typescript
+enum Status {
+    Pending = 10,
+    Approved = 20,
+    Rejected = 30
+}
+```
+
+If you assign a value to one member, the next numeric member automatically increments from that value.
+
+```typescript
+enum Status {
+    Pending = 5,
+    Approved, // 6
+    Rejected  // 7
+}
+```
+
+### String Enum (Important)
+
+Instead of numeric values, you can assign strings.
+
+```typescript
+enum Status {
+    Pending = "PENDING",
+    Approved = "APPROVED",
+    Rejected = "REJECTED"
+}
+
+let currentStatus: Status = Status.Pending;
+
+console.log(currentStatus); // PENDING
+```
+
+### Enum Restricts Allowed Values
+
+A variable typed with an enum can only be assigned one of the values defined by that enum.
+
+```typescript
+enum Direction {
+    Up,
+    Down,
+    Left,
+    Right
+}
+
+let direction: Direction = Direction.Up;
+
+// direction = 10; // Error
+```
+
+### Numeric Enum Reverse Mapping
+
+Numeric enums support reverse mapping. You can access the member name using its numeric value.
+
+```typescript
+enum Status {
+    Pending,
+    Approved,
+    Rejected
+}
+
+console.log(Status.Pending); // 0
+console.log(Status[0]);       // Pending
+```
+
+String enums do not provide this reverse mapping.
+
+### Const Enum (Advanced)
+
+TypeScript also supports `const enum`.
+
+```typescript
+const enum Direction {
+    Up = 1,
+    Down = 2,
+    Left = 3,
+    Right = 4
+}
+
+let direction: Direction = Direction.Up;
+```
+
+Unlike regular enums, `const enum` values are generally inlined during compilation, so they do not create a normal enum object at runtime.
+
+However, `const enum` can have compatibility issues with certain build tools and library configurations. As a beginner, you do not need to use it yet.
+
+---
+
+# 13. Union Types (`|`) in TypeScript
+
+A **Union Type** allows a variable to store values of more than one specified type.
+
+In simple words, instead of saying a variable can only be a string or only a number, you can allow it to be either a string OR a number.
+
+### Example
+
+```typescript
+let value: string | number;
+
+value = "Krishna"; // Valid
+value = 100;       // Valid
+// value = true;   // Error
+```
+
+### Type Narrowing (Very Important)
+
+When a variable has multiple possible types, TypeScript sometimes does not know which type you are currently using.
+
+You need to narrow the type before performing type-specific operations.
+
+The following code gives an error because `value` might be a number, and numbers do not have the `toUpperCase()` method.
+
+```typescript
+function printValue(value: string | number) {
+    // console.log(value.toUpperCase()); // Error
+}
+```
+
+### Solution: Use `typeof`
+
+```typescript
+function printValue(value: string | number) {
+    if (typeof value === "string") {
+        console.log(value.toUpperCase());
+    } else {
+        console.log(value.toFixed(2));
+    }
+}
+
+printValue("Krishna"); // KRISHNA
+printValue(100);       // 100.00
+```
+
+`typeof` helps TypeScript identify the current type of the value. This process is called **type narrowing**.
+
+---
+
+# 14. Intersection Types (`&`) in TypeScript
+
+An **Intersection Type** combines multiple types into one type.
+
+In simple words, a value using an intersection type must contain the properties required by all the combined types.
+
+### Example
+
+```typescript
+type User = {
+    name: string;
+};
+
+type Employee = {
+    salary: number;
+};
+
+type EmployeeDetails = User & Employee;
+
+const employee: EmployeeDetails = {
+    name: "Krishna",
+    salary: 50000
+};
+```
+
+Here:
+
+- `User` requires the `name` property.
+- `Employee` requires the `salary` property.
+- `EmployeeDetails` requires both properties.
+
+---
+
+# 15. Type Annotations in Variables
+
+Type annotations tell TypeScript what type of value a variable is allowed to store.
+
+We use a colon (`:`) to specify the type.
+
+### Example
+
+```typescript
+let name: string = "Krishna";
+
+name = "Rahul"; // Valid
+// name = 100;  // Error
+```
+
+### Number Array
+
+```typescript
+let numbers: number[] = [10, 20, 30, 40];
+
+numbers.push(50);   // Valid
+// numbers.push("50"); // Error
+```
+
+### Alternative Array Syntax
+
+You can also use `Array<type>` syntax.
+
+```typescript
+let names: Array<string> = ["Krishna", "Rahul"];
+
+let numbers: Array<number> = [10, 20, 30];
+```
+
+---
+
+# 16. Functions in TypeScript
+
+TypeScript allows you to define the types of function parameters and return values.
+
+This helps ensure that functions receive the expected arguments and return the expected type.
+
+### Function Parameters and Return Type
+
+```typescript
+function greet(name: string, age?: number): string {
+    return `Hello ${name}`;
+}
+
+greet("Krishna");     // Valid
+greet("Krishna", 22); // Valid
+```
+
+In this example:
+
+- `name: string` means the `name` parameter must be a string.
+- `age?: number` means `age` is an optional number parameter.
+- `: string` after the parentheses defines the function's return type.
+
+### Optional Parameters (`?`)
+
+Use `?` after a parameter name when that parameter is optional.
+
+```typescript
+function displayUser(name: string, age?: number): void {
+    console.log(name, age);
+}
+
+displayUser("Krishna");
+displayUser("Krishna", 22);
+```
+
+### Function Return Types
+
+You can explicitly define the type of value a function returns.
+
+```typescript
+function add(a: number, b: number): number {
+    return a + b;
+}
+
+console.log(add(10, 20)); // 30
+```
+
+### Rest Parameters
+
+Rest parameters allow a function to accept multiple arguments as an array.
+
+```typescript
+function calculateTotal(...prices: number[]): number {
+    return prices.reduce((total, price) => total + price, 0);
+}
+
+console.log(calculateTotal(100, 200));             // 300
+console.log(calculateTotal(100, 200, 300));        // 600
+console.log(calculateTotal(10, 20, 30, 40, 50));   // 150
+```
+
+### Anonymous Functions
+
+An anonymous function is a function without a name. It can be assigned to a variable.
+
+```typescript
+const add = function (a: number, b: number): number {
+    return a + b;
+};
+
+console.log(add(10, 20)); // 30
+```
+
+### Callback Functions
+
+A **Callback Function** is a function that is passed as an argument to another function and is executed later by that function.
+
+In simple words, one function calls another function when a particular task is completed or an event occurs.
+
+```typescript
+function calculate(
+    a: number,
+    b: number,
+    callback: (result: number) => void
+): void {
+    const result = a + b;
+    callback(result);
+}
+
+calculate(10, 20, function (result: number) {
+    console.log("Total:", result);
+});
+```
+
+### Callback Using Type Alias
+
+If you use the same callback structure multiple times, you can define a reusable type alias.
+
+```typescript
+type Callback = (message: string) => void;
+
+function sendMessage(callback: Callback): void {
+    callback("Message sent successfully");
+}
+
+sendMessage((message) => {
+    console.log(message);
+});
+```
+
+---
+
 # Learning Progress
 
 - [x] What is TypeScript?
@@ -624,8 +977,18 @@ console.log(user[0]); // Valid
 - [x] Basic Data Types
 - [x] Arrays
 - [x] Tuples
+- [x] Enums
+- [x] Union Types
+- [x] Type Narrowing with `typeof`
+- [x] Intersection Types
+- [x] Variable Type Annotations
+- [x] Function Parameters and Return Types
+- [x] Optional and Rest Parameters
+- [x] Anonymous Functions
+- [x] Callback Functions
+- [x] Callback Type Aliases
 
-**More topics to learn:** Union Types, Intersection Types, Enums, Type Aliases, Interfaces, Functions, Generics, Type Narrowing, Utility Types, Classes, Modules, and Advanced TypeScript.
+**More topics to learn:** Generics, Advanced Type Narrowing, Utility Types, Classes, Modules, Type Assertions, Literal Types, Type Guards, and Advanced TypeScript.
 
 ---
 
