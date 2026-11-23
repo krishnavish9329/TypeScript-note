@@ -544,3 +544,14 @@
 		  email: "krishna@gmail.com"
 		};
 
+	Index Signature (Dynamic Object Properties): Sometimes you don't know all property names in advance.
+		For example, an object containing dynamic user scores:
+		type Scores = {
+		  [subject: string]: number;
+		};
+
+		const studentScores: Scores = {
+		  Maths: 90,
+		  English: 85,
+		  Science: 95
+		};
