@@ -555,3 +555,157 @@
 		  English: 85,
 		  Science: 95
 		};
+	Extending Object Types : You can reuse one interface inside another using extends.
+		interface Person {
+		  name: string;
+		  age: number;
+		}
+
+		interface Employee extends Person {
+		  employeeId: number;
+		  department: string;
+		}
+
+		const employee: Employee = {
+		  name: "Krishna",
+		  age: 23,
+		  employeeId: 101,
+		  department: "Development"
+		}; // Here, Employee automatically gets name and age from Person.
+
+	Intersection Types (&) : You can combine multiple types using &.
+		type Person = {
+		  name: string;
+		};
+
+		type Employee = {
+		  employeeId: number;
+		};
+
+		type Developer = Person & Employee;
+
+		const developer: Developer = {
+		  name: "Krishna",
+		  employeeId: 101
+		};
+
+
+
+(19)What is an Interface?
+	An interface defines the structure of an object.
+
+	It specifies:
+	- Which properties an object must have.
+	- What data types those properties should contain.
+	- Which properties are optional.
+	- Which properties are readonly.
+
+	Optional Properties (?)
+	Readonly Properties
+	Nested Objects in Interfaces
+	Interface Inheritance (extends)
+		interface Person {
+		  name: string;
+		}
+		interface Employee {
+		  salary: number;
+		}
+		interface Developer extends Person, Employee {
+		  skills: string[];
+		}
+
+
+	Interface Declaration Merging
+		interface User {
+		  name: string;
+		}
+		interface User {
+		  age: number;
+		}
+		const user: User = {
+		  name: "Krishna",
+		  age: 23
+		};
+
+
+	Interfaces with Functions
+		interface Calculator {
+		  (a: number, b: number): number;
+		}
+		const add: Calculator = (a, b) => {
+		  return a + b;
+		};
+		console.log(add(10, 20)); // 30
+
+
+	Index Signature :An index signature allows an object to have dynamic property names, where we don't know all property names in advance, but we know the type of their values.
+		interface Marks {
+		  [key: string]: number;
+		}
+		let studentMarks: Marks = {
+		  Krishna: 85,
+		  Rahul: 90,
+		  Amit: 78
+		};
+		console.log(studentMarks);
+
+(20)Type Narrowing
+	Type Narrowing means reducing a variable's possible types to a more specific type using conditions or checks.
+
+
+	let value: string | number = "Krishna"; // hear we can not definded whitch typeof 
+
+	if (typeof value === "string") {
+	  console.log(value.toUpperCase());
+	} else {
+	  console.log(value.toFixed(2));
+	}
+
+
+	typeof, 
+	instanceof : Use instanceof to check whether an object belongs to a particular class.
+
+	class Car {
+	  drive() {
+	    console.log("Car is driving");
+	  }
+	}
+
+	class Bike {
+	  ride() {
+	    console.log("Bike is riding");
+	  }
+	}
+	function startVehicle(vehicle: Car | Bike) {
+	  if (vehicle instanceof Car) {
+	    vehicle.drive();
+	  } else {
+	    vehicle.ride();
+	  }
+	}
+	startVehicle(new Car());
+	startVehicle(new Bike());
+
+	in:Use in when you want to check whether an object contains a particular property.
+	type Admin = {
+	  name: string;
+	  permissions: string[];
+	};
+	type Employee = {
+	  name: string;
+	  department: string;
+	};
+	function getDetails(user: Admin | Employee) {
+	  if ("permissions" in user) {
+	    console.log(user.permissions);
+	  } else {
+	    console.log(user.department);
+	  }
+	}
+	getDetails({
+	  name: "Krishna",
+	  permissions: ["read", "write"]
+	});
+
+	"Type Narrowing is a TypeScript feature that allows the compiler to determine a more specific type of a variable within a particular code block using runtime checks such as typeof, instanceof, in, and equality checks."
+
