@@ -709,3 +709,19 @@
 
 	"Type Narrowing is a TypeScript feature that allows the compiler to determine a more specific type of a variable within a particular code block using runtime checks such as typeof, instanceof, in, and equality checks."
 
+(21)keyof Operator
+	The keyof operator extracts the property names (keys) of an object type and creates a union of those keys.
+	In simple words:
+	keyof gives us all the allowed property names of an object as a TypeScript type.
+
+	interface User {
+	  name: string;
+	  age: number;
+	  email: string;
+	}
+	type UserKeys = keyof User;
+	let key: UserKeys;
+	key = "name";  // Valid
+	key = "age";   // Valid
+	key = "email"; // Valid
+	// key = "phone"; // Error   // same as   type UserKeys = "name" | "age" | "email";
